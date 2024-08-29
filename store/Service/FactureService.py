@@ -1,5 +1,5 @@
 from Repository.FacturaRepository import FacturaRepository
-from Schemas.Schemas import Client as Client_Schemas
+from Schemas.Schemas import Factura as factura_Schemas
 
 @staticmethod
 def Get( connection): 
@@ -17,13 +17,13 @@ def Get_By_Id(connection,id:int ):
     return new_reservation
 
 @staticmethod
-def Post( connection,reservation_: Client_Schemas): 
+def Post( connection,reservation_: factura_Schemas): 
     reservationRepo = FacturaRepository(connection)    
     new_reservation = reservationRepo.Add(reservation_)
     return new_reservation
 
 @staticmethod
-def Put( connection,reservation_: Client_Schemas): 
+def Put( connection,reservation_: factura_Schemas): 
     reservationRepo = FacturaRepository(connection) 
     reservation_Update = reservationRepo.Update(reservation_)
     return reservation_Update
