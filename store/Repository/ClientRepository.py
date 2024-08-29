@@ -23,8 +23,24 @@ class ClientRepository:
            
         service_result = dict(result._mapping)
         return service_result
+    def Get_By_cc(self, cc: str):
+        query = select(Customer_Model).where(Customer_Model.cc == cc)
+        result = self.connection.execute(query).fetchone()
+
+        if(result is  None):          
+            return None
+       
+        service_result = dict(result._mapping)
+        return service_result
     
     def Add(self, Reservation_:customer_Schemas ):
+        service_data = Reservation_.dict()
+        query = insert(Customer_Model).values(service_data)
+        self.connection.execute(query)
+        self.connection.commit()
+        return "Added new client"
+    
+    def Login(self, Reservation_:customer_Schemas ):
         service_data = Reservation_.dict()
         query = insert(Customer_Model).values(service_data)
         self.connection.execute(query)

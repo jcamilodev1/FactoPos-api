@@ -23,6 +23,26 @@ def Post( connection,reservation_: Client_Schemas):
     return new_reservation
 
 @staticmethod
+def Post( connection,reservation_: Client_Schemas): 
+    reservationRepo = ClientRepository(connection)    
+    new_reservation = reservationRepo.Add(reservation_)
+    return new_reservation
+
+@staticmethod
+def Login( connection,client_Login: Client_Schemas): 
+    reservationRepo = ClientRepository(connection)    
+    # verificar que el usuario no exite
+    user = reservationRepo.Get_By_cc(client_Login.cc)
+    if(user):
+
+        return "Usuario existe"
+    else:
+        reservationRepo.Add(client_Login)
+        return "Usuario no existe, se creado nuevo usuario"
+    new_reservation = reservationRepo.Login(client_Login)
+    return new_reservation
+
+@staticmethod
 def Put( connection,reservation_: Client_Schemas): 
     reservationRepo = ClientRepository(connection) 
     reservation_Update = reservationRepo.Update(reservation_)

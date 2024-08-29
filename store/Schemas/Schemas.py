@@ -13,6 +13,10 @@ class Client_post(BaseModel):
     birth_date: datetime = datetime.now().date()
     cc: str = "00000000"
 
+class Client_post_Login(BaseModel):
+    phone: str = "123-456-7890"
+    cc: str = "00000000"
+
 
 class Factura(BaseModel):
     id: Optional[int] = None

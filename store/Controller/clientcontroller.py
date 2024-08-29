@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Body, HTTPException
 from config.db import get_db
 from Service import ClientService as Client_Service
-from Schemas.Schemas import Client_post , Client
+from Schemas.Schemas import Client_post , Client, Client_post_Login
 router = APIRouter()
 @router.get("/")
 async def Get():
@@ -26,6 +26,16 @@ async def Post(
         ):
         try:
                 reservaton_Byid = Client_Service.Post(get_db,queryBody )
+                return  reservaton_Byid
+        except ValueError as e:
+                raise HTTPException(status_code=400, detail=str(e))
+        
+@router.post("/Login")
+async def Post(
+        queryBody: Client_post_Login = Body(...)
+        ):
+        try:
+                reservaton_Byid = Client_Service.Login(get_db,queryBody )
                 return  reservaton_Byid
         except ValueError as e:
                 raise HTTPException(status_code=400, detail=str(e))
