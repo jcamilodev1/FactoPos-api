@@ -32,7 +32,7 @@ def Post( connection,factura_: Factura_Post):
     Factura_id = FacturaRepo.Add(new_factura)
     # añadir los productos
     for p in factura_.products:
-        Data_factura_products = Factura_Product_Post(factura_id=Factura_id, product_id= p )
+        Data_factura_products = Factura_Product_Post(factura_id=Factura_id, product_id= p['product_id'], quantity=p['quantity'] )
         FacturaProductsService.Post(connection, Data_factura_products)
     
     return "factura fue creada"

@@ -21,6 +21,7 @@ class FacturaProducts(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     factura_id = Column(Integer, ForeignKey("facturas.id"), nullable=False)
     product_id = Column(Integer, ForeignKey("products.id"), nullable=False)
+    quantity = Column(Integer,nullable=False,default=0)  
 
     factura = relationship("Factura", back_populates="factura_products")
     product = relationship("Product", back_populates="factura_products")
