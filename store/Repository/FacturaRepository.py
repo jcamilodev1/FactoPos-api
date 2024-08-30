@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 from sqlalchemy import select,insert,delete, update , and_, or_, func
-from Model.Facturas import Invoice   as Factura_Model
+from Model.Facturas import Factura   as Factura_Model
 from Schemas.Schemas import Factura as factura_Schemas
 class FacturaRepository:
     
@@ -27,9 +27,10 @@ class FacturaRepository:
     def Add(self, Reservation_:factura_Schemas ):
         service_data = Reservation_.dict()
         query = insert(Factura_Model).values(service_data)
-        self.connection.execute(query)
+        new_factura =  self.connection.execute(query)
         self.connection.commit()
-        return "Added new factura"
+        service_result = new_factura.inserted_primary_key[0]
+        return service_result
     
     def Update(self, reservation_:factura_Schemas ):
         service_data = reservation_.dict()
