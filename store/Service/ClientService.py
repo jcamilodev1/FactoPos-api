@@ -1,5 +1,6 @@
 from Repository.ClientRepository import ClientRepository
-from Schemas.Schemas import Client as Client_Schemas
+from Schemas.Schemas import Client as Client_Schemas , Client_post
+from datetime import datetime
 
 @staticmethod
 def Get( connection): 
@@ -17,15 +18,17 @@ def Get_By_Id(connection,id:int ):
     return new_reservation
 
 @staticmethod
-def Post( connection,reservation_: Client_Schemas): 
+def Get_By_Phone(connection,phone:str ): 
     reservationRepo = ClientRepository(connection)    
-    new_reservation = reservationRepo.Add(reservation_)
-    return new_reservation
+    clinte = reservationRepo.Get_By_Phone(phone)
+    return clinte
+
+
 
 @staticmethod
-def Post( connection,reservation_: Client_Schemas): 
+def Post( connection,client_: Client_post): 
     reservationRepo = ClientRepository(connection)    
-    new_reservation = reservationRepo.Add(reservation_)
+    new_reservation = reservationRepo.Add(client_)
     return new_reservation
 
 @staticmethod

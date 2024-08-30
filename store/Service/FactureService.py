@@ -1,5 +1,7 @@
 from Repository.FacturaRepository import FacturaRepository
-from Schemas.Schemas import Factura as factura_Schemas
+from Service import ClientService
+from Schemas.Schemas import Factura as factura_Schemas , Factura_Post, Client_post
+from datetime import datetime
 
 @staticmethod
 def Get( connection): 
@@ -17,9 +19,18 @@ def Get_By_Id(connection,id:int ):
     return new_reservation
 
 @staticmethod
-def Post( connection,reservation_: factura_Schemas): 
+def Post( connection,factura_: Factura_Post):
+    # cliente existe 
+    client = ClientService.Get_By_Phone(connection, factura_.phone )
+
+    if(client is None):
+        print("Usuario no existe")
+        #regista el cliente
+        new_client =  Client_post(name=factura_.name, phone=factura_.phone , birth_date=None, cc=None)
+        ClientService.Post(connection, new_client)
+        # print("Se añadio un nuevo cliente")
     reservationRepo = FacturaRepository(connection)    
-    new_reservation = reservationRepo.Add(reservation_)
+    new_reservation = reservationRepo.Add(factura_)
     return new_reservation
 
 @staticmethod

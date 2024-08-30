@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy import select,insert,delete, update , and_, or_, func
 from Model.Clients import Customer as Customer_Model
-from Schemas.Schemas import Client as customer_Schemas
+from Schemas.Schemas import Client as customer_Schemas, Client_post_Login
 class ClientRepository:
     
     def __init__(self, connection):
@@ -23,8 +23,20 @@ class ClientRepository:
            
         service_result = dict(result._mapping)
         return service_result
+    
+    def Get_By_Phone(self, phone: str):
+        query = select(Customer_Model).where(Customer_Model.phone == phone)
+        result = self.connection.execute(query).fetchone()
+
+        if(result is None):
+            return None   
+           
+        service_result = dict(result._mapping)
+        return service_result
+    
     def Get_By_cc(self, cc: str):
-        query = select(Customer_Model).where(Customer_Model.cc == cc)
+        query = select(Customer_Model).where(Customer_Model.cc == cc
+                                         or  Customer_Model.phone == cc )
         result = self.connection.execute(query).fetchone()
 
         if(result is  None):          
@@ -33,9 +45,9 @@ class ClientRepository:
         service_result = dict(result._mapping)
         return service_result
     
-    def Add(self, Reservation_:customer_Schemas ):
-        service_data = Reservation_.dict()
-        query = insert(Customer_Model).values(service_data)
+    def Add(self, client_:customer_Schemas ):
+        client__data = client_.dict()
+        query = insert(Customer_Model).values(client__data)
         self.connection.execute(query)
         self.connection.commit()
         return "Added new client"

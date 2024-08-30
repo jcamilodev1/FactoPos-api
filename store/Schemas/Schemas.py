@@ -4,30 +4,31 @@ from datetime import datetime
 
 class Client(BaseModel):
     id: Optional[int] = None
-    phone: str = "123-456-7890"
+    name: str= "Client_name"
+    phone: str = "1234567890"
     birth_date: datetime = datetime.now().date()
-    cc: str = "00000000"
+    cc: Optional[str] = ""
 
 class Client_post(BaseModel):
-    phone: str = "123-456-7890"
-    birth_date: datetime = datetime.now().date()
-    cc: str = "00000000"
-
+    name: str= "Client_name"
+    phone: str = "1234567890"
+    birth_date: Optional[datetime] = None  
+    cc: Optional[str] = None  
+    
 class Client_post_Login(BaseModel):
-    phone: str = "123-456-7890"
+    phone: str = "1234567890"
     cc: str = "00000000"
 
 
 class Factura(BaseModel):
     id: Optional[int] = None
-    phone: str = "123-456-7890"
+    phone: str = "1234567890"
     name: str = "Alex"
     discount: float = 0
     payment_status: bool = False
 
 class Factura_Post(BaseModel):
-    id: Optional[int] = None
-    phone: str = "123-456-7890"
+    phone: str = "1234567890"
     name: str = "Alex"
     discount: float = 0
     payment_status: bool = False
