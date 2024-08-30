@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Dict, List, Optional, Union
 from pydantic import BaseModel, Field
 from datetime import datetime
 
@@ -32,6 +32,16 @@ class Factura_Post(BaseModel):
     name: str = "Alex"
     discount: float = 0
     payment_status: bool = False
+    products:List[Dict[str,int]] = [
+    {'product_id': 0,  'quantity': 1}    
+]
+
+class Factura_New(BaseModel):
+    phone: str = "1234567890"
+    name: str = "Alex"
+    discount: float = 0
+    payment_status: bool = False
+
 
 
 class Product(BaseModel):
@@ -44,3 +54,16 @@ class Product_Post(BaseModel):
     name: str = "Product_name"
     image: str = "Url"
     price: float = 0
+
+
+
+class Factura_Product(BaseModel):
+    id: Optional[int] = None
+    factura_id: int = 0
+    product_id: int = 0
+
+
+class Factura_Product_Post(BaseModel):
+    factura_id: int = 0
+    product_id: int = 0
+    quantity: int = 0

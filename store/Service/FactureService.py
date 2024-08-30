@@ -1,6 +1,6 @@
 from Repository.FacturaRepository import FacturaRepository
-from Service import ClientService
-from Schemas.Schemas import Factura as factura_Schemas , Factura_Post, Client_post
+from Service import ClientService , FacturaProductsService
+from Schemas.Schemas import Factura as factura_Schemas , Factura_Post, Client_post, Factura_New , Factura_Product_Post
 from datetime import datetime
 
 @staticmethod
@@ -22,15 +22,20 @@ def Get_By_Id(connection,id:int ):
 def Post( connection,factura_: Factura_Post):
     # cliente existe 
     client = ClientService.Get_By_Phone(connection, factura_.phone )
-    len(client)
-    print(client)
     if(  len(client) == 0 ):
+        # Crear cliente
         new_client =  Client_post(name=factura_.name, phone=factura_.phone , birth_date=None, cc=None)
         ClientService.Post(connection, new_client)
-
-    reservationRepo = FacturaRepository(connection)    
-    new_reservation = reservationRepo.Add(factura_)
-    return new_reservation
+    # Crear una nueva factura
+    new_factura =  Factura_New(phone=factura_.phone, name=factura_.name, discount=factura_.discount, payment_status=factura_.payment_status)
+    FacturaRepo = FacturaRepository(connection)    
+    Factura_id = FacturaRepo.Add(new_factura)
+    # añadir los productos
+    for p in factura_.products:
+        Data_factura_products = Factura_Product_Post(factura_id=Factura_id, product_id= p['product_id'], quantity=p['quantity'] )
+        FacturaProductsService.Post(connection, Data_factura_products)
+    
+    return "factura fue creada"
 
 @staticmethod
 def Put( connection,reservation_: factura_Schemas): 
