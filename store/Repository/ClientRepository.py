@@ -24,14 +24,14 @@ class ClientRepository:
         service_result = dict(result._mapping)
         return service_result
     
-    def Get_By_Phone(self, phone: str):
-        query = select(Customer_Model).where(Customer_Model.phone == phone)
-        result = self.connection.execute(query).fetchone()
+    def Get_By_Phone(self, phone: int):
+        query = select(Customer_Model).where( (Customer_Model.phone.ilike(f"%{phone}%")))
+        result = self.connection.execute(query).fetchall()
 
         if(result is None):
             return None   
-           
-        service_result = dict(result._mapping)
+        service_result = [dict(row._mapping) for row in result]  
+        # service_result = dict(result._mapping)
         return service_result
     
     def Get_By_cc(self, cc: str):

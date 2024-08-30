@@ -18,10 +18,10 @@ def Get_By_Id(connection,id:int ):
     return new_reservation
 
 @staticmethod
-def Get_By_Phone(connection,phone:str ): 
+def Get_By_Phone(connection,phone:int ): 
     reservationRepo = ClientRepository(connection)    
-    clinte = reservationRepo.Get_By_Phone(phone)
-    return clinte
+    client = reservationRepo.Get_By_Phone(phone)
+    return client
 
 
 

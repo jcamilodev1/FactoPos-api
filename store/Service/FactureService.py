@@ -24,11 +24,9 @@ def Post( connection,factura_: Factura_Post):
     client = ClientService.Get_By_Phone(connection, factura_.phone )
 
     if(client is None):
-        print("Usuario no existe")
-        #regista el cliente
         new_client =  Client_post(name=factura_.name, phone=factura_.phone , birth_date=None, cc=None)
         ClientService.Post(connection, new_client)
-        # print("Se añadio un nuevo cliente")
+        
     reservationRepo = FacturaRepository(connection)    
     new_reservation = reservationRepo.Add(factura_)
     return new_reservation

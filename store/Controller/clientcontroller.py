@@ -18,7 +18,15 @@ async def Get_By_Id(id:int):
                 reservaton_Byid = Client_Service.Get_By_Id(get_db,id )
                 return  reservaton_Byid
         except ValueError as e:
-                raise HTTPException(status_code=400, detail=str(e))       
+                raise HTTPException(status_code=400, detail=str(e))   
+
+@router.get("Phone/{num}")
+async def Get_By_Phone(num:int):
+        try:       
+                Phone_Byid = Client_Service.Get_By_Phone(get_db,num )
+                return  Phone_Byid
+        except ValueError as e:
+                raise HTTPException(status_code=400, detail=str(e))    
 
 @router.post("/")
 async def Post(
