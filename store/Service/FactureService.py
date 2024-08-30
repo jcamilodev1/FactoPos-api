@@ -22,11 +22,12 @@ def Get_By_Id(connection,id:int ):
 def Post( connection,factura_: Factura_Post):
     # cliente existe 
     client = ClientService.Get_By_Phone(connection, factura_.phone )
-
-    if(client is None):
+    len(client)
+    print(client)
+    if(  len(client) == 0 ):
         new_client =  Client_post(name=factura_.name, phone=factura_.phone , birth_date=None, cc=None)
         ClientService.Post(connection, new_client)
-        
+
     reservationRepo = FacturaRepository(connection)    
     new_reservation = reservationRepo.Add(factura_)
     return new_reservation

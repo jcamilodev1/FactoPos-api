@@ -30,8 +30,7 @@ class ClientRepository:
 
         if(result is None):
             return None   
-        service_result = [dict(row._mapping) for row in result]  
-        # service_result = dict(result._mapping)
+        service_result = [dict(row._mapping) for row in result]
         return service_result
     
     def Get_By_cc(self, cc: str):
