@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, MetaData
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-DATABASE_URL = "sqlite:///./database.db"  # Cambia esta URL a la de tu base de datos
+DATABASE_URL = "postgresql+psycopg2://factouser:admin123@localhost/mydatabase" # Cambia esta URL a la de tu base de datos
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 
