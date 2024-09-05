@@ -18,8 +18,8 @@ COPY . .
 
 # Descarga e instala wait-for-it
 RUN wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && \
-    chmod +x wait-for-it.sh
-
+    chmod +x wait-for-it.sh && \
+    mv wait-for-it.sh /app/wait-for-it.sh
 # Expone el puerto en el que se ejecutará la aplicación
 EXPOSE 80
 
