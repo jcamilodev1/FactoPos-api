@@ -10,3 +10,4 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 meta = MetaData()
 
+get_db = engine.connect()
