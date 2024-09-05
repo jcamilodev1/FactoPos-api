@@ -1,8 +1,13 @@
-# Dockerfile
 FROM python:3.9-slim
 
 # Establece el directorio de trabajo
 WORKDIR /app
+
+# Instala dependencias del sistema necesarias para psycopg2
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    wget && \
+    rm -rf /var/lib/apt/lists/*
 
 # Copia los archivos de requisitos e instala las dependencias
 COPY requirements.txt .
@@ -12,8 +17,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Descarga e instala wait-for-it
-RUN apt-get update && apt-get install -y wget && \
-    wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && \
+RUN wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh && \
     chmod +x wait-for-it.sh
 
 # Expone el puerto en el que se ejecutará la aplicación
