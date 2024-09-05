@@ -7,7 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 RUN python -m compileall .
-
+RUN alembic upgrade head
 # Etapa de producción (final)
 FROM python:3.9-slim-buster
 WORKDIR /app

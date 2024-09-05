@@ -1,0 +1,11 @@
+LOAD DATABASE
+     FROM sqlite:///home/ubuntu/FactoPos-api/store/database.db
+     INTO postgresql://factouser:admin123@localhost/mydatabase
+
+WITH include no no tables;
+
+ALTER SCHEMA 'main' RENAME TO 'public';
+
+SET work_mem TO '16MB';
+
+-- Define table mappings and other transformations here
