@@ -12,7 +12,6 @@ RUN python -m compileall .
 FROM python:3.9-slim-buster
 WORKDIR /app
 
-# Copiar solo los archivos compilados desde la etapa de compilación
 COPY --from=builder /app/ /app/
 
 ENV PYTHONUNBUFFERED 1
@@ -21,6 +20,10 @@ ENV PYTHONUNBUFFERED 1
 RUN apt-get update && apt-get install -y \
     libpq-dev && \
     rm -rf /var/lib/apt/lists/*
+
+# Reinstalar dependencias de Python
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Exponer el puerto
 EXPOSE 80
