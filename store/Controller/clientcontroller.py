@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Body, HTTPException
 from config.db import get_db
-from Service import ClientService as Client_Service
+from Service import Client_Service
 from Schemas.Schemas import Client_post , Client, Client_post_Login
 router = APIRouter()
 @router.get("/")
