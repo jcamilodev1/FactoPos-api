@@ -8,7 +8,7 @@ services:
     depends_on:
       - db
     environment:
-      - DATABASE_URL=postgresql://factouser:admin123@db:5432/mydatabase
+      - DATABASE_URL=postgresql+psycopg2://factouser:admin123@db:5432/mydatabase
     volumes:
       - .:/app
 
@@ -25,3 +25,4 @@ services:
 
 volumes:
   postgres_data:
+
