@@ -1,26 +1,32 @@
-FROM python:3.9-slim
-
-# Establece el directorio de trabajo
+# Etapa de compilación (builder)
+FROM python:3.9-slim-buster AS builder
 WORKDIR /app
 
-# Instala dependencias del sistema necesarias para psycopg2
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    wget && \
-    rm -rf /var/lib/apt/lists/*
-
-# Copia los archivos de requisitos e instala las dependencias
-COPY requirements.txt .
+COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia el código de la aplicación
 COPY . .
+RUN python -m compileall .
 
-# Descarga e instala wait-for-it directamente en la ubicación deseada
+# Etapa de producción (final)
+FROM python:3.9-slim-buster
+WORKDIR /app
+
+# Copiar solo los archivos compilados desde la etapa de compilación
+COPY --from=builder /app/ /app/
+
+ENV PYTHONUNBUFFERED 1
+
+# Instalar dependencias del sistema (si es necesario)
+RUN apt-get update && apt-get install -y \
+    libpq-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Descargar e instalar wait-for-it
 RUN wget https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh -O /app/wait-for-it.sh && \
     chmod +x /app/wait-for-it.sh
 
-# Expone el puerto en el que se ejecutará la aplicación
+# Exponer el puerto
 EXPOSE 80
 
 # Comando para iniciar la aplicación
