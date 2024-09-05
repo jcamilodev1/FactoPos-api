@@ -1,37 +1,21 @@
-# Etapa de compilación (builder)
-FROM python:3.9-slim-buster AS builder
+FROM python:3.9-slim-buster
+
+# Instalar el cliente de PostgreSQL
+RUN apt-get update && \
+    apt-get install -y postgresql-client && \
+    rm -rf /var/lib/apt/lists/*
+
 WORKDIR /app
 
 COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
-RUN python -m compileall .
-RUN alembic upgrade head
-# Etapa de producción (final)
-FROM python:3.9-slim-buster
-WORKDIR /app
 
-COPY --from=builder /app/ /app/
+# Copia el script wait-for-db.sh
+COPY wait-for-db.sh /usr/local/bin/wait-for-db.sh
+RUN chmod +x /usr/local/bin/wait-for-db.sh
 
-ENV PYTHONUNBUFFERED 1
-
-# Instalar dependencias del sistema (si es necesario)
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    netcat && \
-    rm -rf /var/lib/apt/lists/*
-
-# Reinstalar dependencias de Python
-COPY requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copiar el script de entrada
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
-
-# Exponer el puerto
-EXPOSE 80
-
-# Comando para iniciar la aplicación
-CMD ["/app/entrypoint.sh"]
+# Ejecutar el script wait-for-db.sh para esperar la base de datos y luego iniciar la aplicación
+ENTRYPOINT ["/usr/local/bin/wait-for-db.sh"]
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "80"]
