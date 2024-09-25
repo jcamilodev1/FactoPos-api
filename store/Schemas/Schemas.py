@@ -9,6 +9,25 @@ class Client(BaseModel):
     birth_date: datetime = datetime.now().date()
     cc: Optional[str] = ""
 
+class User(BaseModel):
+    name: str= "Client_name"
+    phone: str = "1234567890"
+    birth_date: Optional[datetime] = None  
+    cc: Optional[str] = None  
+    cc_type: Optional[str] = None  
+    address: Optional[str] = None
+    email: Optional[str] = None
+    name_business: str = "1234567890"
+    phone_business: str = "1234567890"
+    cc_business: Optional[str] = None
+    cc_type_business: Optional[str] = None  
+    number_employees: Optional[int] = None
+    password: str = Field(..., min_length=8)
+
+class LoginSchema(BaseModel):
+    email: str
+    password: str
+
 class Client_post(BaseModel):
     name: str= "Client_name"
     phone: str = "1234567890"

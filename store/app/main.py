@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from starlette.middleware.cors import CORSMiddleware
-from Controller import clientcontroller, FacturaController, ProductController, FacturaProductsController
+from Controller import clientcontroller, FacturaController, ProductController, FacturaProductsController, UserrController
 
 
 
@@ -14,6 +14,7 @@ app.add_middleware(
 )
 
 app.include_router(clientcontroller.router, prefix="/Client", tags=["Client"])
+app.include_router(UserrController.router, prefix="/User", tags=["User"])
 app.include_router(FacturaController.router, prefix="/Factura", tags=["Factura"])
 app.include_router(ProductController.router, prefix="/Product", tags=["Product"])
 app.include_router(FacturaProductsController.router, prefix="/FacturaProduct", tags=["FacturaProduct"])
